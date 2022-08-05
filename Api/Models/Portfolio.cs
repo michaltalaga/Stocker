@@ -2,7 +2,7 @@
 
 public class Portfolio
 {
-    [JsonProperty("id")]
+    public string id => OwnerEmail + ":" + Name;
     public string Name { get; set; }
     public string OwnerEmail { get; set; }
     public Stock[] Stocks { get; set; }

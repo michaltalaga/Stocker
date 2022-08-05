@@ -1,28 +1,28 @@
+﻿using Api.Endpoints;
+using Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiTests;
+namespace ApiTests.Endpoints;
 
 public class CreatePortfolioTests
 {
     CreatePortfolio createPortfolio;
-    Container container;
+    IPortfolioService portfolioService;
     public CreatePortfolioTests()
     {
-        container = Substitute.For<Container>();
-        var database = Substitute.For<Database>();
-        database.GetContainer(Arg.Any<string>()).Returns(container);
-        createPortfolio = new CreatePortfolio(database);
+        portfolioService = Substitute.For<IPortfolioService>();
+        createPortfolio = new CreatePortfolio(portfolioService);
     }
     [Fact]
-    public async Task AddsNewPortfolioToDatabase()
+    public async Task CallsCreateOnService()
     {
         var portfolio = PortfolioStub.Create();
         await createPortfolio.Run(portfolio);
-        await container.Received().CreateItemAsync(portfolio);
+        await portfolioService.Received().Create(portfolio);
     }
     [Fact]
-    public async Task ReturnsCreatedCodeForNewPortfolios()
+    public async Task ReturnsStatusCodeCreatedOnSucceeds()
     {
         var portfolio = PortfolioStub.Create();
         var statusCodeResult = await createPortfolio.Run(portfolio) as StatusCodeResult;

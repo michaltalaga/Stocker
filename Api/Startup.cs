@@ -1,4 +1,6 @@
 ﻿using Api;
+using Api.Infrastructure;
+using Api.Services;
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,5 +17,8 @@ public class Startup : FunctionsStartup
         var cosmosClient = cosmosClientBuilder.Build();
 
         builder.Services.AddTransient(services => cosmosClient.GetDatabase("Stocker"));
+        builder.Services.AddTransient<IRepository, CosmosDBRepository>();
+        builder.Services.AddTransient<IUserContext, FromConfigUserContext>();
+        builder.Services.AddTransient<IPortfolioService, PortfolioService>();
     }
 }
