@@ -2,5 +2,9 @@
 
 public interface IPortfolioService
 {
-    Task Create(Portfolio portfolio);
+    Task Create(string ownerEmail, CreatePortfolioModel portfolio);
+    public class CreatePortfolioModel
+    {
+        public string Name { get; set; }
+    }
 }

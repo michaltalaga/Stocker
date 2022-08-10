@@ -1,4 +1,3 @@
-using Api.Endpoints;
 using Api.Infrastructure;
 using Api.Services;
 
@@ -6,7 +5,7 @@ namespace ApiTests.Services;
 
 public class PortfolioServiceTests
 {
-    PortfolioService createPortfolio;
+    PortfolioService portfolioService;
     IRepository repository;
     IUserContext userContext;
     public PortfolioServiceTests()
@@ -14,37 +13,20 @@ public class PortfolioServiceTests
         repository = Substitute.For<IRepository>();
         userContext = Substitute.For<IUserContext>();
         userContext.GetEmail().Returns(PortfolioStub.OwnerEmail);
-        createPortfolio = new PortfolioService(userContext, repository);
+        portfolioService = new PortfolioService(repository);
     }
     [Fact]
-    public async Task CreateAddsNewPortfolioToDatabase()
+    public async Task CreateAddsNewPortfolioToRepositoryWithNameAndOwnerEmail()
     {
-        var portfolio = PortfolioStub.Create();
-        await createPortfolio.Create(portfolio);
-        await repository.Received().Add(portfolio);
+        var createPortfolioModel = PortfolioStub.CreateNewCreatePortfolioModel();
+        await portfolioService.Create(PortfolioStub.OwnerEmail, createPortfolioModel);
+        await repository.Received().Add(Arg.Is<Portfolio>(p => p.OwnerEmail == PortfolioStub.OwnerEmail && p.Name == createPortfolioModel.Name));
     }
     [Fact]
-    public async Task CreatingPortfolioWithNullOwnerEmailShouldUseCurrentUserEmail()
+    public async Task CreateThrowsIfNoOwnerEmailProvided()
     {
-        var portfolio = PortfolioStub.Create();
-        portfolio.OwnerEmail = null;
-        await createPortfolio.Create(portfolio);
-        await repository.Received().Add(Arg.Is<Portfolio>(p => p.OwnerEmail == userContext.GetEmail()));
-    }
-    [Fact]
-    public async Task CreatingPortfolioWithCurrentOwnerEmailShouldUseIt()
-    {
-        var portfolio = PortfolioStub.Create();
-        portfolio.OwnerEmail = PortfolioStub.OwnerEmail;
-        await createPortfolio.Create(portfolio);
-        await repository.Received().Add(Arg.Is<Portfolio>(p => p.OwnerEmail == PortfolioStub.OwnerEmail));
-    }
-    [Fact]
-    public async Task CreatingPortfolioWithOwnerEmailDifferentThanCurrentUserEmailShouldThrow()
-    {
-        var portfolio = PortfolioStub.Create();
-        portfolio.OwnerEmail = "not" + userContext.GetEmail();
-        var task = createPortfolio.Create(portfolio);
-        await Assert.ThrowsAsync<InvalidOperationException>(() => task);
+        var createPortfolioModel = PortfolioStub.CreateNewCreatePortfolioModel();
+        var task = portfolioService.Create(null, createPortfolioModel);
+        await Assert.ThrowsAsync<ArgumentNullException>(() => task);
     }
 }

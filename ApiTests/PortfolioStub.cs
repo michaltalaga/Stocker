@@ -1,11 +1,10 @@
-﻿namespace ApiTests;
+﻿using Api.Services;
+using static Api.Services.IPortfolioService;
+
+namespace ApiTests;
 
 internal static class PortfolioStub
 {
     public const string OwnerEmail = "owner@email.com";
-    public static Portfolio Create() => new Portfolio
-    {
-        Name = "p1",
-        OwnerEmail = OwnerEmail,
-    };
+    public static CreatePortfolioModel CreateNewCreatePortfolioModel() => new CreatePortfolioModel { Name = "Portfolio 1" };
 }

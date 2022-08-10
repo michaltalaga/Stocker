@@ -1,4 +1,5 @@
 ﻿using Api.Endpoints;
+using Api.Infrastructure;
 using Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,23 +10,26 @@ public class CreatePortfolioTests
 {
     CreatePortfolio createPortfolio;
     IPortfolioService portfolioService;
+    IUserContext userContext;
     public CreatePortfolioTests()
     {
         portfolioService = Substitute.For<IPortfolioService>();
-        createPortfolio = new CreatePortfolio(portfolioService);
+        userContext = Substitute.For<IUserContext>();
+        userContext.GetEmail().Returns(PortfolioStub.OwnerEmail);
+        createPortfolio = new CreatePortfolio(portfolioService, userContext);
     }
     [Fact]
-    public async Task CallsCreateOnService()
+    public async Task CallsCreateOnServiceWithOwnerEmailAndModel()
     {
-        var portfolio = PortfolioStub.Create();
-        await createPortfolio.Run(portfolio);
-        await portfolioService.Received().Create(portfolio);
+        var createPortfolioModel = PortfolioStub.CreateNewCreatePortfolioModel();
+        await createPortfolio.Run(createPortfolioModel);
+        await portfolioService.Received().Create(userContext.GetEmail(), createPortfolioModel);
     }
     [Fact]
     public async Task ReturnsStatusCodeCreatedOnSucceeds()
     {
-        var portfolio = PortfolioStub.Create();
-        var statusCodeResult = await createPortfolio.Run(portfolio) as StatusCodeResult;
+        var createPortfolioModel = PortfolioStub.CreateNewCreatePortfolioModel();
+        var statusCodeResult = await createPortfolio.Run(createPortfolioModel) as StatusCodeResult;
         Assert.NotNull(statusCodeResult);
         Assert.Equal(StatusCodes.Status201Created, statusCodeResult!.StatusCode);
     }

@@ -1,26 +1,23 @@
-﻿namespace Api.Services;
+﻿using static Api.Services.IPortfolioService;
+
+namespace Api.Services;
 
 public class PortfolioService : IPortfolioService
 {
-    private IUserContext userContext;
     private IRepository repository;
 
-    public PortfolioService(IUserContext userContext, IRepository repository)
+    public PortfolioService(IRepository repository)
     {
-        this.userContext = userContext;
         this.repository = repository;
     }
 
-    public async Task Create(Portfolio portfolio)
+    public async Task Create(string ownerEmail, CreatePortfolioModel portfolio)
     {
-        EnsureOwnerEmail(portfolio);
-        await repository.Add(portfolio);
-    }
-
-    private void EnsureOwnerEmail(Portfolio portfolio)
-    {
-        var currentUserEmail = userContext.GetEmail();
-        portfolio.OwnerEmail ??= currentUserEmail;
-        if (!portfolio.OwnerEmail.Equals(currentUserEmail, StringComparison.InvariantCultureIgnoreCase)) throw new InvalidOperationException();
+        ArgumentNullException.ThrowIfNull(ownerEmail);
+        await repository.Add(new Portfolio
+        {
+            OwnerEmail = ownerEmail,
+            Name = portfolio.Name,
+        });
     }
 }
