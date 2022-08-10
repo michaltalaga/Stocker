@@ -5,9 +5,9 @@ VisualStudioVersion = 17.3.32611.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Panel", "Panel\Panel.esproj", "{57BAA086-4F13-46C4-98B4-A3CF478CB909}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{B34CDBC1-C0B6-42E4-A4E6-65495EB18449}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{B34CDBC1-C0B6-42E4-A4E6-65495EB18449}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTests", "ApiTests\ApiTests.csproj", "{0582F791-004E-4D78-B5AE-3778D24E9408}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiTests", "ApiTests\ApiTests.csproj", "{0582F791-004E-4D78-B5AE-3778D24E9408}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

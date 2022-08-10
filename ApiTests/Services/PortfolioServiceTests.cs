@@ -1,5 +1,6 @@
 using Api.Infrastructure;
 using Api.Services;
+using static Api.Services.IPortfolioService;
 
 namespace ApiTests.Services;
 
@@ -27,6 +28,12 @@ public class PortfolioServiceTests
     {
         var createPortfolioModel = PortfolioStub.CreateNewCreatePortfolioModel();
         var task = portfolioService.Create(null, createPortfolioModel);
+        await Assert.ThrowsAsync<ArgumentNullException>(() => task);
+    }
+    [Fact]
+    public async Task CreateThrowsIfNoModelProvided()
+    {
+        var task = portfolioService.Create(PortfolioStub.OwnerEmail, null);
         await Assert.ThrowsAsync<ArgumentNullException>(() => task);
     }
 }

@@ -14,6 +14,7 @@ public class PortfolioService : IPortfolioService
     public async Task Create(string ownerEmail, CreatePortfolioModel portfolio)
     {
         ArgumentNullException.ThrowIfNull(ownerEmail);
+        ArgumentNullException.ThrowIfNull(portfolio);
         await repository.Add(new Portfolio
         {
             OwnerEmail = ownerEmail,
