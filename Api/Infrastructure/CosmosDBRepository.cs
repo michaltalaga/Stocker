@@ -16,9 +16,15 @@ public class CosmosDBRepository : IRepository
 		await container.CreateItemAsync(item);
 	}
 
-	public async Task<T> GetById<T>(string id)
+	//public async Task<T> GetById<T>(string id)
+	//{
+	//	var container = GetContainerFor<T>();
+	//	return await container.ReadItemAsync<T>(id, new PartitionKey(id));
+	//}
+
+	public IQueryable<T> Query<T>()
 	{
 		var container = GetContainerFor<T>();
-		return await container.ReadItemAsync<T>(id, new PartitionKey(id));
+		return container.GetItemLinqQueryable<T>(true);
 	}
 }

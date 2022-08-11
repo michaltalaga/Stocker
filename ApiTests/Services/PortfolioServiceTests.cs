@@ -36,4 +36,18 @@ public class PortfolioServiceTests
         var task = portfolioService.Create(PortfolioStub.OwnerEmail, null);
         await Assert.ThrowsAsync<ArgumentNullException>(() => task);
     }
+
+    [Fact]
+    public void GetUsesOwnerEmail()
+    {
+        var portfolios = new Portfolio[]
+        {
+            new Portfolio{ OwnerEmail = PortfolioStub.OwnerEmail},
+            new Portfolio { OwnerEmail = "xxx" }
+        }.AsQueryable();
+        repository.Query<Portfolio>().Returns(portfolios);
+        var result = portfolioService.Get(PortfolioStub.OwnerEmail).ToArray();
+        Assert.True(result.Length == 1);
+        Assert.True(result[0].OwnerEmail == PortfolioStub.OwnerEmail);
+    }
 }
