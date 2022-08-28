@@ -17,7 +17,7 @@ public class GetPortfolioTests
         getPortfolio = new GetPortfolio(portfolioService, userContext);
     }
     [Fact]
-    public void GetUsesOwnerEmail()
+    public void GetPortfoliosUsesOwnerEmail()
     {
         getPortfolio.Run(new HttpRequestMessage());
         portfolioService.Received().Get(userContext.GetEmail());
