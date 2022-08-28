@@ -7,4 +7,6 @@ internal static class PortfolioStub
 {
     public const string OwnerEmail = "owner@email.com";
     public static CreatePortfolioModel CreateNewCreatePortfolioModel() => new CreatePortfolioModel { Name = "Portfolio 1" };
+
+    public static AddTransactionModel CreateNewAddTransactionModel() => new AddTransactionModel { Name = "Name 1" };
 }

@@ -30,4 +30,9 @@ public class PortfolioService : IPortfolioService
     {
         return repository.Query<Portfolio>().Where(p => p.OwnerEmail == ownerEmail && p.Name == name).AsEnumerable().Single();
     }
+
+    public Task AddTransaction(string ownerEmail, string portfolioName, AddTransactionModel transaction)
+    {
+        throw new NotImplementedException();
+    }
 }

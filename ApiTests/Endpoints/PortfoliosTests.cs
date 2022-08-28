@@ -47,4 +47,23 @@ public class PortfoliosTests
         Assert.NotNull(statusCodeResult);
         Assert.Equal(StatusCodes.Status201Created, statusCodeResult!.StatusCode);
     }
+
+
+    [Fact]
+    public async Task AddTransactionCallsAddOnServiceWithOwnerEmailPortfolioNameAndTransaction()
+    {
+        var portfolioName = "p1";
+        var transaction = PortfolioStub.CreateNewAddTransactionModel();
+        await portfolios.AddTransaction(transaction, portfolioName);
+        await portfolioService.Received().AddTransaction(userContext.GetEmail(), portfolioName, transaction);
+    }
+
+    [Fact]
+    public async Task AddTransactionReturnsStatusCodeCreatedOnSuccess()
+    {
+        var portfolioName = "p1";
+        var transaction = PortfolioStub.CreateNewAddTransactionModel();
+        var statusCodeResult = await portfolios.AddTransaction(transaction, portfolioName) as StatusCodeResult;
+        Assert.Equal(StatusCodes.Status201Created, statusCodeResult!.StatusCode);
+    }
 }

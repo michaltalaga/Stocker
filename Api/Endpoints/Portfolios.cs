@@ -39,4 +39,12 @@ public class Portfolios
     {
         return portfolioService.Get(userContext.GetEmail(), name);
     }
+
+    [FunctionName(nameof(AddTransaction))]
+    public async Task<IActionResult> AddTransaction(
+    [HttpTrigger(AuthorizationLevel.Function, "post", Route = "portfolios/{portfolioName}/transactions")] AddTransactionModel transaction, string portfolioName)
+    {
+        await portfolioService.AddTransaction(userContext.GetEmail(), portfolioName, transaction);
+        return new StatusCodeResult(StatusCodes.Status201Created);
+    }
 }
