@@ -19,22 +19,22 @@ namespace Api.Endpoints
             this.userContext = userContext;
         }
 
-        [FunctionName("CreatePortfolio")]
-        public async Task<IActionResult> Run(
+        [FunctionName(nameof(CreatePortfolio))]
+        public async Task<IActionResult> CreatePortfolio(
         [HttpTrigger(AuthorizationLevel.Function, "post", Route = "portfolios")] CreatePortfolioModel portfolio)
         {
             await portfolioService.Create(userContext.GetEmail(), portfolio);
             return new StatusCodeResult(StatusCodes.Status201Created);
         }
-        [FunctionName("GetPortfolios")]
-        public IEnumerable<Portfolio> Run(
+        [FunctionName(nameof(GetPortfolios))]
+        public IEnumerable<Portfolio> GetPortfolios(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "portfolios")] HttpRequestMessage req)
         {
             return portfolioService.Get(userContext.GetEmail());
         }
 
-        [FunctionName("GetPortfolio")]
-        public Portfolio Run1(
+        [FunctionName(nameof(GetPortfolio))]
+        public Portfolio GetPortfolio(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "portfolios/{name}")] HttpRequestMessage req, string name)
         {
             return portfolioService.Get(userContext.GetEmail(), name);
