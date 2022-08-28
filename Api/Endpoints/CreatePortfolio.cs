@@ -19,7 +19,7 @@ namespace Api.Endpoints
         }
         [FunctionName("CreatePortfolio")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post")] CreatePortfolioModel portfolio)
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "portfolios")] CreatePortfolioModel portfolio)
         {
             await portfolioService.Create(userContext.GetEmail(), portfolio);
             return new StatusCodeResult(StatusCodes.Status201Created);
