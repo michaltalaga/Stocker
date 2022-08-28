@@ -21,4 +21,11 @@ public class GetPortfolio
     {
         return portfolioService.Get(userContext.GetEmail());
     }
+
+    [FunctionName("GetPortfolio")]
+    public Portfolio Run1(
+    [HttpTrigger(AuthorizationLevel.Function, "get", Route = "portfolios/{name}")] HttpRequestMessage req, string name)
+    {
+        return portfolioService.Get(userContext.GetEmail(), name);
+    }
 }

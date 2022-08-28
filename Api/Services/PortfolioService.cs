@@ -25,4 +25,9 @@ public class PortfolioService : IPortfolioService
     {
         return repository.Query<Portfolio>().Where(p => p.OwnerEmail == ownerEmail);
     }
+
+    public Portfolio Get(string ownerEmail, string name)
+    {
+        return repository.Query<Portfolio>().Where(p => p.OwnerEmail == ownerEmail && p.Name == name).AsEnumerable().Single();
+    }
 }

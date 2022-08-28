@@ -22,4 +22,12 @@ public class GetPortfolioTests
         getPortfolio.Run(new HttpRequestMessage());
         portfolioService.Received().Get(userContext.GetEmail());
     }
+
+    [Fact]
+    public void GetPortfolioUsesOwnerEmailAndName()
+    {
+        var name = "name1";
+        getPortfolio.Run1(new HttpRequestMessage(), name);
+        portfolioService.Received().Get(userContext.GetEmail(), name);
+    }
 }
