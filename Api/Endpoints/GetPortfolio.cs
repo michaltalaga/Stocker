@@ -17,7 +17,7 @@ public class GetPortfolio
     }
     [FunctionName("GetPortfolios")]
     public IEnumerable<Portfolio> Run(
-        [HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestMessage req)
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "portfolios")] HttpRequestMessage req)
     {
         return portfolioService.Get(userContext.GetEmail());
     }
