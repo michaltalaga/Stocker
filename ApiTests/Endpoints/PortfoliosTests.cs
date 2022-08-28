@@ -40,7 +40,7 @@ public class PortfoliosTests
         await portfolioService.Received().Create(userContext.GetEmail(), createPortfolioModel);
     }
     [Fact]
-    public async Task CreatePortfolioReturnsStatusCodeCreatedOnSucceeds()
+    public async Task CreatePortfolioReturnsStatusCodeCreatedOnSuccess()
     {
         var createPortfolioModel = PortfolioStub.CreateNewCreatePortfolioModel();
         var statusCodeResult = await portfolios.CreatePortfolio(createPortfolioModel) as StatusCodeResult;
