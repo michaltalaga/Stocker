@@ -21,7 +21,7 @@ public class PortfoliosTests
     [Fact]
     public void GetPortfoliosUsesOwnerEmail()
     {
-        portfolios.Run(new HttpRequestMessage());
+        portfolios.GetPortfolios(new HttpRequestMessage());
         portfolioService.Received().Get(userContext.GetEmail());
     }
 
@@ -29,21 +29,21 @@ public class PortfoliosTests
     public void GetPortfolioUsesOwnerEmailAndName()
     {
         var name = "name1";
-        portfolios.Run1(new HttpRequestMessage(), name);
+        portfolios.GetPortfolio(new HttpRequestMessage(), name);
         portfolioService.Received().Get(userContext.GetEmail(), name);
     }
     [Fact]
     public async Task CreatePortfolioCallsCreateOnServiceWithOwnerEmailAndModel()
     {
         var createPortfolioModel = PortfolioStub.CreateNewCreatePortfolioModel();
-        await portfolios.Run(createPortfolioModel);
+        await portfolios.CreatePortfolio(createPortfolioModel);
         await portfolioService.Received().Create(userContext.GetEmail(), createPortfolioModel);
     }
     [Fact]
     public async Task CreatePortfolioReturnsStatusCodeCreatedOnSucceeds()
     {
         var createPortfolioModel = PortfolioStub.CreateNewCreatePortfolioModel();
-        var statusCodeResult = await portfolios.Run(createPortfolioModel) as StatusCodeResult;
+        var statusCodeResult = await portfolios.CreatePortfolio(createPortfolioModel) as StatusCodeResult;
         Assert.NotNull(statusCodeResult);
         Assert.Equal(StatusCodes.Status201Created, statusCodeResult!.StatusCode);
     }
