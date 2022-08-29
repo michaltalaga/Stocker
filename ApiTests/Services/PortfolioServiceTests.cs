@@ -63,4 +63,11 @@ public class PortfolioServiceTests
         await portfolioService.AddTransaction(portfolio.OwnerEmail, portfolio.Name, transaction);
         await repository.Received().Update(Arg.Is<Portfolio>(p => p.Transactions.Count() == 1));
     }
+
+    [Fact]
+    public async Task AddTransactionToNonExistingPortfolioThrows()
+    {
+        var task = portfolioService.AddTransaction(PortfolioStub.OwnerEmail, "x", PortfolioStub.CreateNewAddTransactionModel());
+        await Assert.ThrowsAnyAsync<Exception>(() => task);
+    }
 }
