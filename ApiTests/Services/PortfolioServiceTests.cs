@@ -1,6 +1,5 @@
 using Api.Infrastructure;
 using Api.Services;
-using static Api.Services.IPortfolioService;
 
 namespace ApiTests.Services;
 
@@ -61,7 +60,6 @@ public class PortfolioServiceTests
         var portfolio = PortfolioStub.CreateNewPortfolioCollection().First();
         repository.Query<Portfolio>().Returns((new[] { portfolio }).AsQueryable());
         var transaction = PortfolioStub.CreateNewAddTransactionModel();
-
         await portfolioService.AddTransaction(portfolio.OwnerEmail, portfolio.Name, transaction);
         await repository.Received().Update(Arg.Is<Portfolio>(p => p.Transactions.Count() == 1));
     }
