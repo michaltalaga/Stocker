@@ -1,6 +1,8 @@
 using Api.Infrastructure;
+using Api.Models;
 using Api.Services;
 using NSubstitute;
+using static Api.Services.IPortfolioService;
 
 namespace ApiTests.Services;
 
@@ -97,5 +99,24 @@ public class PortfolioServiceTests
                 && addTransactionModel.PricePerShare == transaction.PricePerShare;
         };
         await repository.Received().Update(Arg.Is<Portfolio>(p => verifyMapping(p)));
+    }
+    [Fact]
+    public async Task AddTransactionValidatesInputs()
+    {
+        var portfolio = PortfolioStub.CreateNewPortfolioCollection().First();
+        repository.Query<Portfolio>().Returns((new[] { portfolio }).AsQueryable());
+        var transaction = PortfolioStub.CreateNewAddTransactionModel();
+        var task = portfolioService.AddTransaction(null, portfolio.Name, transaction);
+        await Assert.ThrowsAsync<ArgumentNullException>(() => task);
+
+        task = portfolioService.AddTransaction(portfolio.OwnerEmail, null, transaction);
+        await Assert.ThrowsAsync<ArgumentNullException>(() => task);
+
+        task = portfolioService.AddTransaction(portfolio.OwnerEmail, portfolio.Name, null);
+        await Assert.ThrowsAsync<ArgumentNullException>(() => task);
+
+        transaction.Symbol = null;
+        task = portfolioService.AddTransaction(portfolio.OwnerEmail, portfolio.Name, transaction);
+        await Assert.ThrowsAsync<ArgumentNullException>(() => task);
     }
 }

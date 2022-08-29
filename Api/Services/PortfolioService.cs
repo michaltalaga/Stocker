@@ -34,6 +34,10 @@ public class PortfolioService : IPortfolioService
 
     public async Task AddTransaction(string ownerEmail, string portfolioName, AddTransactionModel transaction)
     {
+        ArgumentNullException.ThrowIfNull(ownerEmail);
+        ArgumentNullException.ThrowIfNull(portfolioName);
+        ArgumentNullException.ThrowIfNull(transaction);
+        ArgumentNullException.ThrowIfNull(transaction.Symbol);
         var portfolio = Get(ownerEmail, portfolioName);
         portfolio.Transactions ??= new List<Transaction>();
         portfolio.Transactions.Add(new Transaction
