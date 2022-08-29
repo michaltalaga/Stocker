@@ -27,4 +27,10 @@ public class CosmosDBRepository : IRepository
 		var container = GetContainerFor<T>();
 		return container.GetItemLinqQueryable<T>(true);
 	}
+
+	public async Task Update<T>(T item)
+	{
+		var container = GetContainerFor<T>();
+		await container.UpsertItemAsync(item);
+	}
 }
