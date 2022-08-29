@@ -5,7 +5,7 @@ public class Portfolio
     public string id => OwnerEmail + ":" + Name;
     public string Name { get; set; }
     public string OwnerEmail { get; set; }
-    public Transaction[] Transactions { get; set; }
+    public ICollection<Transaction> Transactions { get; set; }
 }
 
 public class Transaction
