@@ -10,14 +10,11 @@ public class Portfolio
 
 public class Transaction
 {
-    public string Code { get; set; }
-    public string Exchange { get; set; }
-    public string Name { get; set; }
-    public string Currency { get; set; }
+    public string Symbol { get; set; }
     public TransactionType Type { get; set; }
-    public DateTimeOffset Date { get; set; }
-    public int Quantity { get; set; }
-    public decimal Price { get; set; }
+    public DateOnly Date { get; set; }
+    public decimal Quantity { get; set; }
+    public decimal PricePerShare { get; set; }
 }
 public enum TransactionType
 {

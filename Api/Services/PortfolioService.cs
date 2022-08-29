@@ -35,7 +35,14 @@ public class PortfolioService : IPortfolioService
     {
         var portfolio = Get(ownerEmail, portfolioName);
         portfolio.Transactions ??= new List<Transaction>();
-        portfolio.Transactions.Add(new Transaction());
+        portfolio.Transactions.Add(new Transaction
+        {
+            Symbol = transaction.Symbol,
+            Date = transaction.Date,
+            Quantity = transaction.Quantity,
+            PricePerShare = transaction.PricePerShare,
+            Type = transaction.Type,
+        });
         await repository.Update(portfolio);
     }
 }
