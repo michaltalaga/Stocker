@@ -15,6 +15,7 @@ public class PortfolioService : IPortfolioService
     {
         ArgumentNullException.ThrowIfNull(ownerEmail);
         ArgumentNullException.ThrowIfNull(portfolio);
+        ArgumentNullException.ThrowIfNull(portfolio.Name);
         await repository.Add(new Portfolio
         {
             OwnerEmail = ownerEmail,

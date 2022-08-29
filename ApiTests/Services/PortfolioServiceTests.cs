@@ -40,6 +40,14 @@ public class PortfolioServiceTests
     }
 
     [Fact]
+    public async Task CreateThrowsIfNameMissing()
+    {
+        var createPortfolioModel = PortfolioStub.CreateNewCreatePortfolioModel();
+        createPortfolioModel.Name = null;
+        var task = portfolioService.Create(PortfolioStub.OwnerEmail, createPortfolioModel);
+        await Assert.ThrowsAsync<ArgumentNullException>(() => task);
+    }
+    [Fact]
     public void GetUsesOwnerEmail()
     {
         var result = portfolioService.Get(PortfolioStub.OwnerEmail).ToArray();
