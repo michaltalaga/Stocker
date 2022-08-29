@@ -12,6 +12,8 @@ public class PortfolioServiceTests
     public PortfolioServiceTests()
     {
         repository = Substitute.For<IRepository>();
+        
+        repository.Query<Portfolio>().Returns(PortfolioStub.CreateNewPortfolioCollection().AsQueryable());
         userContext = Substitute.For<IUserContext>();
         userContext.GetEmail().Returns(PortfolioStub.OwnerEmail);
         portfolioService = new PortfolioService(repository);
@@ -40,14 +42,27 @@ public class PortfolioServiceTests
     [Fact]
     public void GetUsesOwnerEmail()
     {
-        var portfolios = new Portfolio[]
-        {
-            new Portfolio{ OwnerEmail = PortfolioStub.OwnerEmail},
-            new Portfolio { OwnerEmail = "xxx" }
-        }.AsQueryable();
-        repository.Query<Portfolio>().Returns(portfolios);
         var result = portfolioService.Get(PortfolioStub.OwnerEmail).ToArray();
         Assert.True(result.Length == 1);
         Assert.True(result[0].OwnerEmail == PortfolioStub.OwnerEmail);
+    }
+
+    [Fact]
+    public async Task AddTransactionGetsExistingPortfolio()
+    {
+        var transaction = PortfolioStub.CreateNewAddTransactionModel();
+        await portfolioService.AddTransaction(PortfolioStub.OwnerEmail, "p1", transaction);
+        repository.Received().Query<Portfolio>();
+    }
+
+    [Fact]
+    public async Task AddTransactionSavesExisingPortfolioWithNewTransaction()
+    {
+        var portfolio = PortfolioStub.CreateNewPortfolioCollection().First();
+        repository.Query<Portfolio>().Returns((new[] { portfolio }).AsQueryable());
+        var transaction = PortfolioStub.CreateNewAddTransactionModel();
+
+        await portfolioService.AddTransaction(portfolio.OwnerEmail, portfolio.Name, transaction);
+        await repository.Received().Update(Arg.Is<Portfolio>(p => p.Transactions.Count() == 1));
     }
 }
