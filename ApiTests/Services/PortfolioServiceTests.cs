@@ -58,7 +58,7 @@ public class PortfolioServiceTests
     public async Task AddTransactionGetsExistingPortfolio()
     {
         var transaction = PortfolioStub.CreateNewAddTransactionModel();
-        await portfolioService.AddTransaction(PortfolioStub.OwnerEmail, "p1", transaction);
+        await portfolioService.AddTransaction(PortfolioStub.OwnerEmail, PortfolioStub.PortfolioName, transaction);
         repository.Received().Query<Portfolio>();
     }
 
@@ -66,6 +66,7 @@ public class PortfolioServiceTests
     public async Task AddTransactionSavesExisingPortfolioWithNewTransaction()
     {
         var portfolio = PortfolioStub.CreateNewPortfolioCollection().First();
+        portfolio.Transactions = null;
         repository.Query<Portfolio>().Returns((new[] { portfolio }).AsQueryable());
         var transaction = PortfolioStub.CreateNewAddTransactionModel();
         await portfolioService.AddTransaction(portfolio.OwnerEmail, portfolio.Name, transaction);
@@ -83,6 +84,7 @@ public class PortfolioServiceTests
     public async Task AddTransactionMapsProperties()
     {
         var portfolio = PortfolioStub.CreateNewPortfolioCollection().First();
+        portfolio.Transactions = null;
         repository.Query<Portfolio>().Returns((new[] { portfolio }).AsQueryable());
         var addTransactionModel = PortfolioStub.CreateNewAddTransactionModel();
         await portfolioService.AddTransaction(portfolio.OwnerEmail, portfolio.Name, addTransactionModel);
@@ -122,6 +124,7 @@ public class PortfolioServiceTests
     public async Task AddTransactionNewTransactionIncrementSequenceNumbers()
     {
         var transaction = PortfolioStub.CreateNewAddTransactionModel();
+        repository.Query<Portfolio>().ToList().ForEach(p => { p.Transactions = null; });
         await portfolioService.AddTransaction(PortfolioStub.OwnerEmail, PortfolioStub.PortfolioName, transaction);
         await repository.Received().Update(Arg.Is<Portfolio>(p => p.Transactions.Last().SequenceNumber == 0));
         await portfolioService.AddTransaction(PortfolioStub.OwnerEmail, PortfolioStub.PortfolioName, transaction);
