@@ -43,10 +43,12 @@ public class PortfolioService : IPortfolioService
         portfolio.Transactions.Add(new Transaction
         {
             Symbol = transaction.Symbol,
-            Date = transaction.Date,
+            //Date = transaction.Date,
+            Date = DateTimeOffset.Parse(transaction.DateString),
             Quantity = transaction.Quantity,
             PricePerShare = transaction.PricePerShare,
-            Type = transaction.Type,
+            //Type = transaction.Type,
+            Type = Enum.Parse<TransactionType>(transaction.BuySell)
         });
         await repository.Update(portfolio);
     }

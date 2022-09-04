@@ -12,7 +12,7 @@ public class Transaction
 {
     public string Symbol { get; set; }
     public TransactionType Type { get; set; }
-    public DateOnly Date { get; set; }
+    public DateTimeOffset Date { get; set; }
     public decimal Quantity { get; set; }
     public decimal PricePerShare { get; set; }
 }

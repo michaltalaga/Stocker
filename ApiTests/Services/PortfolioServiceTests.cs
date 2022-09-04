@@ -93,8 +93,10 @@ public class PortfolioServiceTests
         {
             var transaction = p.Transactions.First();
             return addTransactionModel.Symbol == transaction.Symbol
-                && addTransactionModel.Date == transaction.Date
-                && addTransactionModel.Type == transaction.Type
+                //&& addTransactionModel.Date == transaction.Date
+                //&& addTransactionModel.Type == transaction.Type
+                && addTransactionModel.BuySell.ToString() == transaction.Type.ToString()
+                && addTransactionModel.DateString == transaction.Date.ToString("yyyy-MM-dd")
                 && addTransactionModel.Quantity == transaction.Quantity
                 && addTransactionModel.PricePerShare == transaction.PricePerShare;
         };

@@ -10,10 +10,12 @@ internal static class PortfolioStub
     public static AddTransactionModel CreateNewAddTransactionModel() => new AddTransactionModel
     {
         Symbol = "SYMBOL",
-        Date = new DateOnly(2001, 1, 1),
+        //Date = new DateTimeOffset(2001, 1, 1, 1, 1, 1, TimeSpan.Zero),
+        DateString = "2001-01-01",
         PricePerShare = 10,
         Quantity = 10,
-        Type = TransactionType.Buy
+        //Type = TransactionType.Buy
+        BuySell = TransactionType.Buy.ToString()
     };
 
     public static Portfolio[] CreateNewPortfolioCollection() => new Portfolio[]

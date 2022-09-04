@@ -18,8 +18,13 @@ public interface IPortfolioService
     public class AddTransactionModel
     {
         public string Symbol { get; set; }
+
+        /* can't make model binder to work with enums atm. panding microsoft to fix it
         public TransactionType Type { get; set; }
-        public DateOnly Date { get; set; }
+        public DateTimeOffset Date { get; set; }
+        */
+        public string BuySell { get; set; }
+        public string DateString { get; set; }
         public decimal Quantity { get; set; }
         public decimal PricePerShare { get; set; }
     }
