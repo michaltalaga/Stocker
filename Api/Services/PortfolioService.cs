@@ -48,7 +48,8 @@ public class PortfolioService : IPortfolioService
             Quantity = transaction.Quantity,
             PricePerShare = transaction.PricePerShare,
             //Type = transaction.Type,
-            Type = Enum.Parse<TransactionType>(transaction.BuySell)
+            Type = Enum.Parse<TransactionType>(transaction.BuySell),
+            SequenceNumber = portfolio.Transactions.Select(t => t.SequenceNumber).DefaultIfEmpty(-1).Max() + 1
         });
         await repository.Update(portfolio);
     }

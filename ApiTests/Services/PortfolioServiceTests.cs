@@ -121,4 +121,13 @@ public class PortfolioServiceTests
         task = portfolioService.AddTransaction(portfolio.OwnerEmail, portfolio.Name, transaction);
         await Assert.ThrowsAsync<ArgumentNullException>(() => task);
     }
+    [Fact]
+    public async Task AddTransactionNewTransactionIncrementSequenceNumbers()
+    {
+        var transaction = PortfolioStub.CreateNewAddTransactionModel();
+        await portfolioService.AddTransaction(PortfolioStub.OwnerEmail, PortfolioStub.PortfolioName, transaction);
+        await repository.Received().Update(Arg.Is<Portfolio>(p => p.Transactions.Last().SequenceNumber == 0));
+        await portfolioService.AddTransaction(PortfolioStub.OwnerEmail, PortfolioStub.PortfolioName, transaction);
+        await repository.Received().Update(Arg.Is<Portfolio>(p => p.Transactions.Last().SequenceNumber == 1));
+    }
 }

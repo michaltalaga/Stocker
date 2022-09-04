@@ -10,6 +10,7 @@ public class Portfolio
 
 public class Transaction
 {
+    public int SequenceNumber { get; set; }
     public string Symbol { get; set; }
     public TransactionType Type { get; set; }
     public DateTimeOffset Date { get; set; }

@@ -5,7 +5,8 @@ namespace ApiTests;
 internal static class PortfolioStub
 {
     public const string OwnerEmail = "owner@email.com";
-    public static CreatePortfolioModel CreateNewCreatePortfolioModel() => new CreatePortfolioModel { Name = "Portfolio 1" };
+    public const string PortfolioName = "Portfolio 1";
+    public static CreatePortfolioModel CreateNewCreatePortfolioModel() => new CreatePortfolioModel { Name = PortfolioName };
 
     public static AddTransactionModel CreateNewAddTransactionModel() => new AddTransactionModel
     {
@@ -20,7 +21,7 @@ internal static class PortfolioStub
 
     public static Portfolio[] CreateNewPortfolioCollection() => new Portfolio[]
     {
-        new Portfolio { Name = "p1", OwnerEmail = OwnerEmail },
+        new Portfolio { Name = PortfolioName, OwnerEmail = OwnerEmail },
         new Portfolio { Name = "p1", OwnerEmail = "xxx" }
     };
 }
