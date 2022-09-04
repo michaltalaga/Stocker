@@ -1,8 +1,5 @@
 using Api.Infrastructure;
-using Api.Models;
 using Api.Services;
-using NSubstitute;
-using static Api.Services.IPortfolioService;
 
 namespace ApiTests.Services;
 
@@ -129,5 +126,20 @@ public class PortfolioServiceTests
         await repository.Received().Update(Arg.Is<Portfolio>(p => p.Transactions.Last().SequenceNumber == 0));
         await portfolioService.AddTransaction(PortfolioStub.OwnerEmail, PortfolioStub.PortfolioName, transaction);
         await repository.Received().Update(Arg.Is<Portfolio>(p => p.Transactions.Last().SequenceNumber == 1));
+    }
+
+    [Fact]
+    public async Task DeleteTransactionRemovesItFromList()
+    {
+        await portfolioService.DeleteTransaction(PortfolioStub.OwnerEmail, PortfolioStub.PortfolioName, 0);
+        await repository.Received().Update(Arg.Is<Portfolio>(p => !p.Transactions.Any(t => t.SequenceNumber == 0)));
+    }
+
+    [Fact]
+    public async Task DeleteTransactionThrowsIfNotExists()
+    {
+        var task = portfolioService.DeleteTransaction(PortfolioStub.OwnerEmail, PortfolioStub.PortfolioName, -1);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => task);
+        await repository.DidNotReceive().Update(Arg.Any<Portfolio>());
     }
 }

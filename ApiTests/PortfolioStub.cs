@@ -21,7 +21,16 @@ internal static class PortfolioStub
 
     public static Portfolio[] CreateNewPortfolioCollection() => new Portfolio[]
     {
-        new Portfolio { Name = PortfolioName, OwnerEmail = OwnerEmail },
+        new Portfolio
+        { 
+            Name = PortfolioName, 
+            OwnerEmail = OwnerEmail,
+            Transactions = new List<Transaction>()
+            {
+                new Transaction { SequenceNumber = 0 },
+                new Transaction { SequenceNumber = 1 }
+            } 
+        },
         new Portfolio { Name = "p1", OwnerEmail = "xxx" }
     };
 }

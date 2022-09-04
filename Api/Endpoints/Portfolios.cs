@@ -47,4 +47,11 @@ public class Portfolios
         await portfolioService.AddTransaction(userContext.GetEmail(), portfolioName, transaction);
         return new StatusCodeResult(StatusCodes.Status201Created);
     }
+    [FunctionName(nameof(DeleteTransaction))]
+    public async Task<IActionResult> DeleteTransaction(
+    [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "portfolios/{portfolioName}/transactions/{id}")] HttpRequestMessage req, string portfolioName, int id)
+    {
+        await portfolioService.DeleteTransaction(userContext.GetEmail(), portfolioName, id);   
+        return new StatusCodeResult(StatusCodes.Status200OK);
+    }
 }

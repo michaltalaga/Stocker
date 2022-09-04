@@ -53,4 +53,14 @@ public class PortfolioService : IPortfolioService
         });
         await repository.Update(portfolio);
     }
+
+    public async Task DeleteTransaction(string ownerEmail, string portfolioName, int sequenceNumber)
+    {
+        ArgumentNullException.ThrowIfNull(ownerEmail);
+        ArgumentNullException.ThrowIfNull(portfolioName);
+        var portfolio = Get(ownerEmail, portfolioName);
+        if (!portfolio.Transactions.Any(t => t.SequenceNumber == sequenceNumber)) throw new InvalidOperationException();
+        portfolio.Transactions = portfolio.Transactions.Where(t => t.SequenceNumber != sequenceNumber).ToList();
+        await repository.Update(portfolio);
+    }
 }

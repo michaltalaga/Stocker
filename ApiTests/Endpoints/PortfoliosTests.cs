@@ -66,4 +66,20 @@ public class PortfoliosTests
         var statusCodeResult = await portfolios.AddTransaction(transaction, portfolioName) as StatusCodeResult;
         Assert.Equal(StatusCodes.Status201Created, statusCodeResult!.StatusCode);
     }
+
+    [Fact]
+    public async Task DeleteTransactionCallsDeleteOnServiceWithOwnerEmailPortfolioNameAndSequence()
+    {
+        var portfolioName = "p1";
+        var sequenceNumber = 1;
+        await portfolios.DeleteTransaction(new HttpRequestMessage(), portfolioName, sequenceNumber);
+        await portfolioService.Received().DeleteTransaction(userContext.GetEmail(), portfolioName, sequenceNumber);
+    }
+    [Fact]
+    public async Task DeleteTransactionReturnsStatusCodeOkOnSuccess()
+    {
+        var portfolioName = "p1";
+        var statusCodeResult = await portfolios.DeleteTransaction(new HttpRequestMessage(), portfolioName, 1) as StatusCodeResult;
+        Assert.Equal(StatusCodes.Status200OK, statusCodeResult!.StatusCode);
+    }
 }

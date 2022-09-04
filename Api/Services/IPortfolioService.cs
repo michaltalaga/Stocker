@@ -8,7 +8,7 @@ public interface IPortfolioService
 
 
     Task AddTransaction(string ownerEmail, string portfolioName, AddTransactionModel transaction);
-
+    Task DeleteTransaction(string ownerEmail, string portfolioName, int sequenceNumber);
 
 
     public class CreatePortfolioModel
