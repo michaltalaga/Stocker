@@ -44,7 +44,7 @@ public class PortfolioService : IPortfolioService
         {
             Symbol = transaction.Symbol,
             //Date = transaction.Date,
-            Date = DateTimeOffset.Parse(transaction.DateString),
+            Date = DateTimeOffset.Parse(transaction.Date),
             Quantity = transaction.Quantity,
             PricePerShare = transaction.PricePerShare,
             //Type = transaction.Type,

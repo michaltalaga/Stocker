@@ -11,7 +11,7 @@ internal static class PortfolioStub
     {
         Symbol = "SYMBOL",
         //Date = new DateTimeOffset(2001, 1, 1, 1, 1, 1, TimeSpan.Zero),
-        DateString = "2001-01-01",
+        Date = "2001-01-01",
         PricePerShare = 10,
         Quantity = 10,
         //Type = TransactionType.Buy

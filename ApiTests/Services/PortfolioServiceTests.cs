@@ -96,7 +96,7 @@ public class PortfolioServiceTests
                 //&& addTransactionModel.Date == transaction.Date
                 //&& addTransactionModel.Type == transaction.Type
                 && addTransactionModel.BuySell.ToString() == transaction.Type.ToString()
-                && addTransactionModel.DateString == transaction.Date.ToString("yyyy-MM-dd")
+                && addTransactionModel.Date == transaction.Date.ToString("yyyy-MM-dd")
                 && addTransactionModel.Quantity == transaction.Quantity
                 && addTransactionModel.PricePerShare == transaction.PricePerShare;
         };

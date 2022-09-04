@@ -24,7 +24,7 @@ public interface IPortfolioService
         public DateTimeOffset Date { get; set; }
         */
         public string BuySell { get; set; }
-        public string DateString { get; set; }
+        public string Date { get; set; }
         public decimal Quantity { get; set; }
         public decimal PricePerShare { get; set; }
     }
