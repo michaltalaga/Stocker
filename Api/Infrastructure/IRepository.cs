@@ -6,4 +6,5 @@ public interface IRepository
 	Task Add<T>(T item);
 	IQueryable<T> Query<T>();
 	Task Update<T>(T item);
+	Task Delete<T>(T item);
 }

@@ -40,6 +40,15 @@ public class Portfolios
         return portfolioService.Get(userContext.GetEmail(), name);
     }
 
+    [FunctionName(nameof(DeletePortfolio))]
+    public async Task<IActionResult> DeletePortfolio(
+    [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "portfolios/{name}")] HttpRequestMessage req, string name)
+    {
+        await portfolioService.Delete(userContext.GetEmail(), name);
+        return new StatusCodeResult(StatusCodes.Status200OK);
+    }
+
+
     [FunctionName(nameof(AddTransaction))]
     public async Task<IActionResult> AddTransaction(
     [HttpTrigger(AuthorizationLevel.Function, "post", Route = "portfolios/{portfolioName}/transactions")] AddTransactionModel transaction, string portfolioName)

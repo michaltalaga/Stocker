@@ -32,6 +32,11 @@ public class PortfolioService : IPortfolioService
         return repository.Query<Portfolio>().Where(p => p.OwnerEmail == ownerEmail && p.Name == name).AsEnumerable().Single();
     }
 
+    public async Task Delete(string ownerEmail, string name)
+    {
+        var portfolio = Get(ownerEmail, name);
+        await repository.Delete(portfolio);
+    }
     public async Task AddTransaction(string ownerEmail, string portfolioName, AddTransactionModel transaction)
     {
         ArgumentNullException.ThrowIfNull(ownerEmail);

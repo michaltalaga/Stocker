@@ -31,5 +31,6 @@ public class Startup : FunctionsStartup
         builder.Services.AddTransient<IRepository, CosmosDBRepository>();
         builder.Services.AddTransient<IUserContext, FromConfigUserContext>();
         builder.Services.AddTransient<IPortfolioService, PortfolioService>();
+        builder.Services.AddTransient<ICosmosDbPartitionKeyAndIdFieldProvider, CosmosDbPartitionKeyAndIdFieldProvider>();
     }
 }

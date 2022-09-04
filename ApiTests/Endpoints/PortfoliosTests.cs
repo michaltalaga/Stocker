@@ -48,6 +48,12 @@ public class PortfoliosTests
         Assert.Equal(StatusCodes.Status201Created, statusCodeResult!.StatusCode);
     }
 
+    [Fact]
+    public async Task DeletePortfolioCallsDeleteOnService()
+    {
+        await portfolios.DeletePortfolio(new HttpRequestMessage(), PortfolioStub.PortfolioName);
+        await portfolioService.Received().Delete(userContext.GetEmail(), PortfolioStub.PortfolioName);
+    }
 
     [Fact]
     public async Task AddTransactionCallsAddOnServiceWithOwnerEmailPortfolioNameAndTransaction()

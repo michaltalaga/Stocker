@@ -5,6 +5,7 @@ public interface IPortfolioService
     Task Create(string ownerEmail, CreatePortfolioModel portfolio);
     IEnumerable<Portfolio> Get(string ownerEmail);
     Portfolio Get(string ownerEmail, string name);
+    Task Delete(string ownerEmail, string name);
 
 
     Task AddTransaction(string ownerEmail, string portfolioName, AddTransactionModel transaction);

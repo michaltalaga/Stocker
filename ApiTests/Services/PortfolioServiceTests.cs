@@ -55,6 +55,18 @@ public class PortfolioServiceTests
     }
 
     [Fact]
+    public async Task DeleteRemovesFromRepository()
+    {
+        await portfolioService.Delete(PortfolioStub.OwnerEmail, PortfolioStub.PortfolioName);
+        await repository.Received().Delete(Arg.Is<Portfolio>(p => p.OwnerEmail == PortfolioStub.OwnerEmail && p.Name == PortfolioStub.PortfolioName));
+    }
+    [Fact]
+    public async Task DeleteThrowsIfNotExists()
+    {
+        var task = portfolioService.Delete(PortfolioStub.OwnerEmail, "random-123");
+        await Assert.ThrowsAnyAsync<Exception>(() => task);
+    }
+    [Fact]
     public async Task AddTransactionGetsExistingPortfolio()
     {
         var transaction = PortfolioStub.CreateNewAddTransactionModel();
